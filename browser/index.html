@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Juke</title>
+    <link href="/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="/bootstrap-dark.css" rel="stylesheet" />
+    <link href="/style.css" rel="stylesheet" />
+  </head>
+  <body ng-app="jukePlayer" ng-controller="MainCtrl">
+    <div id="main" class="container-fluid"  ng-controller="AlbumController">
+      <div class="col-xs-2">
+        <sidebar>
+        <img src="juke.svg" class="logo">
+        <section>
+          <h4 class="playlist-item active">
+          <a href="#">ALBUMS</a>
+          </h4>
+        </section>
+        </sidebar>
+      </div>
+      <div class="col-xs-10">
+        <div class="">
+          
+          <div class="album" ng-repeat="album in albums">
+            <p>
+              <h3>{{album.name}}</h3>
+              <img src="{{album.imageUrl}}" class="img-thumbnail">
+            </p>
+            <table class='table'>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Artists</th>
+                  <th>Genres</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="song in album.songs" ng-class="{active: currentSong.name === song.name}">
+                  <td>
+                    <button class="btn btn-default btn-xs" ng-click="playSong(song)" ng-hide="currentSong.name === song.name">
+                    <span class="glyphicon glyphicon-play"></span>
+                    </button>
+                  </td>
+                  <td>{{song.name}}</td>
+                  <td><p ng-repeat="artist in song.artists">{{artist.name}}</p></td>
+                  <td><p ng-repeat="genre in song.genres">{{genre}}</p></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          
+        </div>
+      </div>
+      <footer ng-show="barShow" ng-controller="PlayerController"><div>
+        <div class="pull-left">
+          <button class="btn btn-default" ng-click="changeSong('reverse')">
+          <span class="glyphicon glyphicon-step-backward"></span>
+          </button>
+          <button class="btn btn-default" ng-click="pauseSong()">
+          <span class="glyphicon" ng-class="{'glyphicon-play': playingSong.playing === false , 'glyphicon-pause': playingSong.playing === true}"></span>
+          </button>
+          <button class="btn btn-default" ng-click="changeSong('forward')">
+          <span class="glyphicon glyphicon-step-forward"></span>
+          </button>
+        </div>
+        <div class="bar">
+          <div class="progress">
+            <div class="progress-bar"></div>
+          </div>
+        </div>
+      </div></footer>
+    </div>
+    <script src="angular/angular.js"></script>
+    <script src="./musicPlayer.js"></script>
+  </body>
+</html>
